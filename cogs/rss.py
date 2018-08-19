@@ -10,7 +10,7 @@ import asyncio
 import aiohttp
 import feedparser
 from datetime import datetime
-from urllib import request #TODO: use aiohttp instead
+from urllib import parse
 from bs4 import BeautifulSoup
 
 """
@@ -152,7 +152,7 @@ class RSSFeed(object):
         return news
         
 #---------------------------------------------------------------------------------------------#       
-    async def _rss_loop(self):
+    async def rss(self):
         """ Checks for rss updates periodically and posts any new content to the specific channel"""
         
         while self == self.bot.get_cog("RSSFeed"):
@@ -220,6 +220,6 @@ def setup(bot):
     #check_filesystem()
     rss_obj = RSSFeed(bot)
     bot.add_cog(rss_obj)
-    bot.loop.create_task(rss_obj._rss_loop())
+    bot.loop.create_task(rss_obj.rss())
 
 #---------------------------------------------------------------------------------------------#
