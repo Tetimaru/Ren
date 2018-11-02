@@ -459,7 +459,6 @@ class WordFilter(): # pylint: disable=too-many-instance-attributes
                     if role.name.lower() == modRole or role.name.lower() == adminRole:
                         return False
         except Exception as error: # pylint: disable=broad-except
-            pass
             LOGGER.error("Exception occurred in checking keyToggleMod!")
             LOGGER.error(error)
 
