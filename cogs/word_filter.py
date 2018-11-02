@@ -3,6 +3,7 @@ To filter words in a more smart/useful wya than simply detecting and
 deleting a message.
 """
 
+import pdb 
 import os
 import re
 import random
@@ -328,7 +329,7 @@ class WordFilter(): # pylint: disable=too-many-instance-attributes
 
     @_whitelist.command(name="add", pass_context=True, no_pm=True)
     @checks.mod_or_permissions(manage_messages=True)
-    async def _whitelistAdd(self, ctx, channelName: str):
+    async def _whitelistAdd(self, ctx, channelName):
         """Add channel to whitelist.
         All messages in the channel will not be filtered.
         """
@@ -340,6 +341,13 @@ class WordFilter(): # pylint: disable=too-many-instance-attributes
             self.whitelist.update(myDict)
             self._updateWhitelist()
 
+        pattern = "<#(\d+)>"
+        match = re.search(pattern, channelName)
+        if match: # channel ID
+            for channel in ctx.message.server.channels:
+                if match.group(1) == channel.id:
+                    channelName = channel.name 
+                 
         if channelName not in self.whitelist[guildId]:
             self.whitelist[guildId].append(channelName)
             self._updateWhitelist()
@@ -452,8 +460,9 @@ class WordFilter(): # pylint: disable=too-many-instance-attributes
                     if role.name.lower() == modRole or role.name.lower() == adminRole:
                         return False
         except Exception as error: # pylint: disable=broad-except
-            LOGGER.error("Exception occurred in checking keyToggleMod!")
-            LOGGER.error(error)
+            pass
+            #LOGGER.error("Exception occurred in checking keyToggleMod!")
+            #LOGGER.error(error)
 
         return True
 
