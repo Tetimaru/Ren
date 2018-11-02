@@ -3,7 +3,6 @@ To filter words in a more smart/useful wya than simply detecting and
 deleting a message.
 """
 
-import pdb 
 import os
 import re
 import random
@@ -461,8 +460,8 @@ class WordFilter(): # pylint: disable=too-many-instance-attributes
                         return False
         except Exception as error: # pylint: disable=broad-except
             pass
-            #LOGGER.error("Exception occurred in checking keyToggleMod!")
-            #LOGGER.error(error)
+            LOGGER.error("Exception occurred in checking keyToggleMod!")
+            LOGGER.error(error)
 
         return True
 
