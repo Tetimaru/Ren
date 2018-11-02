@@ -340,13 +340,13 @@ class WordFilter(): # pylint: disable=too-many-instance-attributes
             self.whitelist.update(myDict)
             self._updateWhitelist()
 
-        pattern = "<#(\d+)>"
+        pattern = r'<#(\d+)>'
         match = re.search(pattern, channelName)
         if match: # channel ID
             for channel in ctx.message.server.channels:
                 if match.group(1) == channel.id:
-                    channelName = channel.name 
-                 
+                    channelName = channel.name
+
         if channelName not in self.whitelist[guildId]:
             self.whitelist[guildId].append(channelName)
             self._updateWhitelist()
