@@ -370,12 +370,12 @@ class WordFilter(): # pylint: disable=too-many-instance-attributes
                                "guild **{}** is not registered, please add a "
                                "channel to the whitelist first.".format(guildName))
             return
-        
+
         match = re.search(PATTERN_CHANNEL_ID, channelName)
         if match: # channel ID
             channel = discord.utils.get(ctx.message.server.channels, id=match.group(1))
             channelName = channel.name
-            
+
         if not self.whitelist[guildId] or channelName not in self.whitelist[guildId]:
             await self.bot.say(":negative_squared_cross_mark: Word Filter: Channel "
                                "`{0}` was already not whitelisted.".format(channelName))
