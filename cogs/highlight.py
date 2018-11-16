@@ -239,8 +239,7 @@ class Highlight(object):
         # Don't send notification for filtered messages  
         if not self.wordFilter:
             self.wordFilter = self.bot.get_cog("WordFilter")
-
-        if self.wordFilter.containsFilterableWords(msg):
+        elif self.wordFilter.containsFilterableWords(msg):
             return
 
         tasks = []
