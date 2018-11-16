@@ -42,8 +42,8 @@ class Highlight(object):
         self.bot = bot
         self.lock = Lock()
         self.highlights = dataIO.load_json("data/highlight/words.json")
-        self.wordFilter = self.bot.get_cog("WordFilter")
-        
+        self.wordFilter = None
+
     def _update_highlights(self, new_obj):
         self.lock.acquire()
         try:
@@ -237,7 +237,10 @@ class Highlight(object):
             return
 
         # Don't send notification for filtered messages  
-        if self.wordFilter.containsFilterableWords(msg.content):
+        if not self.wordFilter:
+            self.wordFilter = self.bot.get_cog("WordFilter")
+
+        if self.wordFilter.containsFilterableWords(msg):
             return
 
         tasks = []
