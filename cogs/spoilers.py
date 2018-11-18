@@ -64,7 +64,7 @@ class Spoilers: # pylint: disable=too-many-instance-attributes
             await self.bot.say("You have filtered words in your spoiler!  Please "
                                "check it and try again!")
             return
-        
+
         try:
             store = {}
             store[KEY_MESSAGE] = msg
