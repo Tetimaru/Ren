@@ -77,16 +77,20 @@ class Spoilers: # pylint: disable=too-many-instance-attributes
             if not self.messages:
                 self.messages = {}
             self.messages[newMsg.id] = store
+            await self.bot.add_reaction(newMsg, "\N{INFORMATION SOURCE}")
             LOGGER.info("%s#%s (%s) added a spoiler: %s",
                         ctx.message.author.name,
                         ctx.message.author.discriminator,
                         ctx.message.author.id,
                         msg)
-            await self.bot.add_reaction(newMsg, "\N{INFORMATION SOURCE}")
             await self.settings.put("messages", self.messages)
-        except discord.errors.Forbidden:
+        except discord.errors.Forbidden as error:
             await self.bot.say("I'm not able to do that.")
             await self.bot.delete_message(newMsg)
+            LOGGER.error("Could not create a spoiler in server %s channel %s",
+                         ctx.message.server.name,
+                         ctx.message.channel.name)
+            LOGGER.error(error)
 
     async def checkForReaction(self, data):
         """Reaction listener (using socket data)
