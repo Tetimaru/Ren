@@ -64,24 +64,29 @@ class Spoilers: # pylint: disable=too-many-instance-attributes
             await self.bot.say("You have filtered words in your spoiler!  Please "
                                "check it and try again!")
             return
-        store = {}
-        store[KEY_MESSAGE] = msg
-        store[KEY_AUTHOR_ID] = ctx.message.author.id
-        store[KEY_AUTHOR_NAME] = "{0.name}#{0.discriminator}".format(ctx.message.author)
-        store[KEY_TIMESTAMP] = ctx.message.timestamp.strftime("%s")
-        await self.bot.delete_message(ctx.message)
-        newMsg = await self.bot.say(":warning: {} created a spoiler!  React to see "
-                                    "the message!".format(ctx.message.author.mention))
-        if not self.messages:
-            self.messages = {}
-        self.messages[newMsg.id] = store
-        LOGGER.info("%s#%s (%s) added a spoiler: %s",
-                    ctx.message.author.name,
-                    ctx.message.author.discriminator,
-                    ctx.message.author.id,
-                    msg)
-        await self.bot.add_reaction(newMsg, "\N{INFORMATION SOURCE}")
-        await self.settings.put("messages", self.messages)
+        
+        try:
+            store = {}
+            store[KEY_MESSAGE] = msg
+            store[KEY_AUTHOR_ID] = ctx.message.author.id
+            store[KEY_AUTHOR_NAME] = "{0.name}#{0.discriminator}".format(ctx.message.author)
+            store[KEY_TIMESTAMP] = ctx.message.timestamp.strftime("%s")
+            await self.bot.delete_message(ctx.message)
+            newMsg = await self.bot.say(":warning: {} created a spoiler!  React to see "
+                                        "the message!".format(ctx.message.author.mention))
+            if not self.messages:
+                self.messages = {}
+            self.messages[newMsg.id] = store
+            LOGGER.info("%s#%s (%s) added a spoiler: %s",
+                        ctx.message.author.name,
+                        ctx.message.author.discriminator,
+                        ctx.message.author.id,
+                        msg)
+            await self.bot.add_reaction(newMsg, "\N{INFORMATION SOURCE}")
+            await self.settings.put("messages", self.messages)
+        except discord.errors.Forbidden:
+            await self.bot.say("I'm not able to do that.")
+            await self.bot.delete_message(newMsg)
 
     async def checkForReaction(self, data):
         """Reaction listener (using socket data)
