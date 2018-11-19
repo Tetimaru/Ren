@@ -71,7 +71,7 @@ class Spoilers: # pylint: disable=too-many-instance-attributes
             store[KEY_MESSAGE] = msg
             store[KEY_AUTHOR_ID] = ctx.message.author.id
             store[KEY_AUTHOR_NAME] = "{0.name}#{0.discriminator}".format(ctx.message.author)
-            store[KEY_TIMESTAMP] = ctx.message.timestamp.strftime("%s")       
+            store[KEY_TIMESTAMP] = ctx.message.timestamp.strftime("%s")
             if ctx.message.embeds:
                 data = discord.Embed.from_data(ctx.message.embeds[0])
                 if data.type == 'image':
