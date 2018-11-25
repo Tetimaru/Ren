@@ -78,8 +78,8 @@ class Spoilers: # pylint: disable=too-many-instance-attributes
                 if data.type == 'image':
                     store[KEY_EMBED] = data.url
             else:
-                pattern_imglink = r"(?i)http[^ ]+\.(?:png|jpg|jpeg|gif)"
-                match = re.search(pattern_imglink, msg)
+                imglinkPattern = r"(?i)http[^ ]+\.(?:png|jpg|jpeg|gif)"
+                match = re.search(imglinkPattern, msg)
                 if match:
                     store[KEY_EMBED] = match.group(0)
             await self.bot.delete_message(ctx.message)
